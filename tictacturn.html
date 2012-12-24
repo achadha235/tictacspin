@@ -21,26 +21,12 @@
 				border-radius:25px;
 				float: left;
 				margin: 18px 18px 18px 18px;
-
-				background-color: #efefef;
 				border-color: #e0e0e0;
 			}
 
-			.quadrant:hover {
-			    -webkit-animation-name: rotate; 
-			    -webkit-animation-duration: 1.5s; 
-			    -webkit-animation-iteration-count: infinite;
-			    -webkit-animation-timing-function: linear;
-			}
 
-			@-webkit-keyframes rotate {
-			    from {-webkit-transform: rotate(0deg);}
-			    to {-webkit-transform: rotate(360deg);}
-			}​
 
-			#q0 {
-				background-color: #E40045;
-			}
+
 
 			#q1 {
 				background-color: #FF9200;
@@ -52,6 +38,9 @@
 
 			#q3 {
 				background-color: #67E300;
+			}
+			#q0 {
+				background-color:#E40045;
 			}
 
 			.quadcells {
@@ -72,6 +61,18 @@
 				font-size: 70px;
 				text-align: center;
 			}
+
+			.quadrant:hover {
+			    -webkit-animation-name: rotate; 
+			    -webkit-animation-duration: 0.5s; 
+			    -webkit-animation-timing-function: ease-in;
+			    -webkit-animation-fill-mode: forwards;
+			}
+
+			@-webkit-keyframes rotate {
+			    from {-webkit-transform: rotate(0deg);}
+			    to {-webkit-transform: rotate(90deg);}
+			}​
 
 		</style>
 	</head>
