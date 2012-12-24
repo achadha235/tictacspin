@@ -1,0 +1,66 @@
+.board {
+				height: 680px;
+				width: 680px;
+				border:5px solid red;
+				border-radius: 25px;
+				border-style: 2px solid; 
+				background-color:#f0f0f0;
+				border-color: #f0f0f0;
+				margin: auto;
+			}
+
+			.quadrant {
+				height: 298px;
+				width: 298px;
+				border:2px solid;
+				border-radius:25px;
+				float: left;
+				margin: 18px 18px 18px 18px;
+				border-color: #e0e0e0;
+			}
+
+			#q1 {
+				background-color: #FF9200;
+			}
+
+			#q2 {
+				background-color: #0B61A4;
+			}
+
+			#q3 {
+				background-color: #67E300;
+			}
+			#q0 {
+				background-color:#E40045;
+			}
+
+			.quadcells {
+				margin-top: 8%;
+				margin-left: 8%;
+			}
+			.row {
+				height: 90px;
+				width: 270px;
+				margin: auto;
+			}
+			.cell {
+				height: 80px;
+				width: 80px;
+				float: left;
+				margin: 1px 1px 1px 1px;
+				background-color: #FFFFFF;
+				font-size: 70px;
+				text-align: center;
+			}
+
+			.quadrant:hover {
+			    -webkit-animation-name: rotate; 
+			    -webkit-animation-duration: 0.5s; 
+			    -webkit-animation-timing-function: ease-in;
+			    -webkit-animation-fill-mode: forwards;
+			}
+
+			@-webkit-keyframes rotate {
+			    from {-webkit-transform: rotate(0deg);}
+			    to {-webkit-transform: rotate(90deg);}
+			}​
