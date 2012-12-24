@@ -1,12 +1,76 @@
 <html>
 
 	<head>
-		<title> Tic Tac Turn </head>
+		<title> Pentago </title>
 		<style>
 			.board {
-				height: 600px;
-				width: 600px;
-				color: 'black';
+				height: 680px;
+				width: 680px;
+				border:5px solid red;
+				border-radius: 25px;
+				border-style: 2px solid; 
+				background-color:#f0f0f0;
+				border-color: #f0f0f0;
+				margin: auto;
+			}
+
+			.quadrant {
+				height: 298px;
+				width: 298px;
+				border:2px solid;
+				border-radius:25px;
+				float: left;
+				margin: 18px 18px 18px 18px;
+
+				background-color: #efefef;
+				border-color: #e0e0e0;
+			}
+
+			.quadrant:hover {
+			    -webkit-animation-name: rotate; 
+			    -webkit-animation-duration: 1.5s; 
+			    -webkit-animation-iteration-count: infinite;
+			    -webkit-animation-timing-function: linear;
+			}
+
+			@-webkit-keyframes rotate {
+			    from {-webkit-transform: rotate(0deg);}
+			    to {-webkit-transform: rotate(360deg);}
+			}​
+
+			#q0 {
+				background-color: #E40045;
+			}
+
+			#q1 {
+				background-color: #FF9200;
+			}
+
+			#q2 {
+				background-color: #0B61A4;
+			}
+
+			#q3 {
+				background-color: #67E300;
+			}
+
+			.quadcells {
+				margin-top: 8%;
+				margin-left: 8%;
+			}
+			.row {
+				height: 90px;
+				width: 270px;
+				margin: auto;
+			}
+			.cell {
+				height: 80px;
+				width: 80px;
+				float: left;
+				margin: 1px 1px 1px 1px;
+				background-color: #FFFFFF;
+				font-size: 70px;
+				text-align: center;
 			}
 
 		</style>
@@ -14,82 +78,87 @@
 
 	<body>
 		<div class='board'>
-			<div class='quadrant' id='q0'>
 
-				<div class='row' id='r0'>
-					<div class='cell' id='cell0'>
-					</div>
+				<div class='quadrant' id='q0'>
+					<div class='quadcells'>
+						<div class='cell' id='cell0'>
+						</div>
+						<div class='cell' id='cell1'>
+						</div>
+						<div class='cell' id='cell2'>
+						</div>
 
-					<div class='cell' id='cell1'>
-					</div>
+						<div class='cell' id='cell0'>
+						</div>
+						<div class='cell' id='cell1'>
+						</div>
+						<div class='cell' id='cell2'>
+						</div>
 
-					<div class='cell' id='cell2'>
-					</div>
-				</div>
-
-				<div class='row' id='r1'>
-					<div class='cell' id='cell0'>
-					</div>
-
-					<div class='cell' id='cell1'>
-					</div>
-
-					<div class='cell' id='cell2'>
-					</div>
-				</div>
-
-				<div class='row' id='r2'>
-					<div class='cell' id='cell0'>
-					</div>
-
-					<div class='cell' id='cell1'>
-					</div>
-
-					<div class='cell' id='cell2'>
+						<div class='cell' id='cell0'>
+						</div>
+						<div class='cell' id='cell1'>
+						</div>
+						<div class='cell' id='cell2'>
+						</div>
 					</div>
 				</div>
 
-			</div>
+				<div class='quadrant' id='q1'>
+					<div class='quadcells'>
+						<div class='cell' id='cell0'>
+							&#215
+						</div>
+						<div class='cell' id='cell1'>
+							&#215
+						</div>
+						<div class='cell' id='cell2'>
+							&#9675
+						</div>
 
-			<div class='quadrant' id='q1'>
+						<div class='cell' id='cell0'>
+							&#9675
+						</div>
 
-				<div class='row' id='r0'>
-					<div class='cell' id='cell0'>
-					</div>
+						<div class='cell' id='cell1'>
+						</div>
 
-					<div class='cell' id='cell1'>
-					</div>
+						<div class='cell' id='cell2'>
+						</div>
 
-					<div class='cell' id='cell2'>
-					</div>
-				</div>
+						<div class='cell' id='cell0'>
+						</div>
 
-				<div class='row' id='r1'>
-					<div class='cell' id='cell0'>
-					</div>
+						<div class='cell' id='cell1'>
+						</div>
 
-					<div class='cell' id='cell1'>
-					</div>
-
-					<div class='cell' id='cell2'>
-					</div>
-				</div>
-
-				<div class='row' id='r2'>
-					<div class='cell' id='cell0'>
-					</div>
-
-					<div class='cell' id='cell1'>
-					</div>
-
-					<div class='cell' id='cell2'>
+						<div class='cell' id='cell2'>
+						</div>
 					</div>
 				</div>
 
-			</div>
 			<div class='quadrant' id='q2'>
+				<div class='quadcells'>
+					<div class='cell' id='cell0'>
+					</div>
 
-				<div class='row' id='r0'>
+					<div class='cell' id='cell1'>
+						&#9675
+					</div>
+
+
+					<div class='cell' id='cell2'>
+					</div>
+
+					<div class='cell' id='cell0'>
+					</div>
+
+					<div class='cell' id='cell1'>
+					</div>
+
+					<div class='cell' id='cell2'>
+					</div>
+
 					<div class='cell' id='cell0'>
 					</div>
 
@@ -99,33 +168,27 @@
 					<div class='cell' id='cell2'>
 					</div>
 				</div>
-
-				<div class='row' id='r1'>
-					<div class='cell' id='cell0'>
-					</div>
-
-					<div class='cell' id='cell1'>
-					</div>
-
-					<div class='cell' id='cell2'>
-					</div>
-				</div>
-
-				<div class='row' id='r2'>
-					<div class='cell' id='cell0'>
-					</div>
-
-					<div class='cell' id='cell1'>
-					</div>
-
-					<div class='cell' id='cell2'>
-					</div>
-				</div>
-
 			</div>
 			<div class='quadrant' id='q3'>
+				<div class='quadcells'>
+					<div class='cell' id='cell0'>
+					</div>
 
-				<div class='row' id='r0'>
+					<div class='cell' id='cell1'>
+					</div>
+
+					<div class='cell' id='cell2'>
+					</div>
+
+					<div class='cell' id='cell0'>
+					</div>
+
+					<div class='cell' id='cell1'>
+					</div>
+
+					<div class='cell' id='cell2'>
+					</div>
+
 					<div class='cell' id='cell0'>
 					</div>
 
@@ -135,31 +198,8 @@
 					<div class='cell' id='cell2'>
 					</div>
 				</div>
-
-				<div class='row' id='r1'>
-					<div class='cell' id='cell0'>
-					</div>
-
-					<div class='cell' id='cell1'>
-					</div>
-
-					<div class='cell' id='cell2'>
-					</div>
-				</div>
-
-				<div class='row' id='r2'>
-					<div class='cell' id='cell0'>
-					</div>
-
-					<div class='cell' id='cell1'>
-					</div>
-
-					<div class='cell' id='cell2'>
-					</div>
-				</div>
-
 			</div>
 		</div>
-		
+
 	</body>
 </html>
