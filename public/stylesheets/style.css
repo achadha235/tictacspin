@@ -53,14 +53,27 @@
 				text-align: center;
 			}
 
-			.quadrant:hover {
-			    -webkit-animation-name: rotate; 
+			.quadrant.rotatecw {
+			    -webkit-animation-name: rotatecw; 
 			    -webkit-animation-duration: 0.5s; 
 			    -webkit-animation-timing-function: ease-in;
 			    -webkit-animation-fill-mode: forwards;
 			}
 
-			@-webkit-keyframes rotate {
+			.quadrant.rotatecc {
+			    -webkit-animation-name: rotatecc; 
+			    -webkit-animation-duration: 0.8s; 
+			    -webkit-animation-timing-function: ease-in;
+			    -webkit-animation-fill-mode: forwards;
+			}
+
+
+			@-webkit-keyframes rotatecw {
 			    from {-webkit-transform: rotate(0deg);}
 			    to {-webkit-transform: rotate(90deg);}
+			}​
+
+			@-webkit-keyframes rotatecc {
+			    from {-webkit-transform: rotate(0deg);}
+			    to {-webkit-transform: rotate(270deg);}
 			}​

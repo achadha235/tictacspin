@@ -40,3 +40,27 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 var io = require('socket.io').listen(server);
+
+var players = [];
+
+io.sockets.on('connection', function (socket){
+
+  socket.on('add_player', function (player_name){
+    players.push(player_name);
+    if (players.length == 2){
+      // Start a game
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
