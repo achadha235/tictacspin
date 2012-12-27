@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 var id = Math.floor(Math.random() * 1000 + 1);
 var name = "Player " + id;
-var socket = io.connect('http://tictacspin.jit.su');
+var socket = io.connect('http://localhost');
 var localGame; // local copy of state
 var net_players;
 var current_player;
@@ -43,7 +43,12 @@ socket.on('rotate_quadrant', function (game, direction, quad){
 	rotateQuadrant(game, direction, quad);
 	localGame.rotationPerformed = true;
 	updateAnimations();
-})
+});
+
+socket.on('game_over', function (winner){
+	if (winner === 1){console.log('X wins!!!');}
+	if (winner === 2){console.log('O wins!!!');}
+});
 
 
 function updateAnimations(){
