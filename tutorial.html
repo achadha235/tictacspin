@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>TIC.TAC.TWIST :: Tutorial</title>
+  
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="./public/foundationassets/stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="./public/foundationassets/stylesheets/app.css">
+
+  <script src="jquery.min.js"></script>
+  <script src="public/foundationassets/javascripts/modernizr.foundation.js"></script>
+
+</head>
+<body>
+  
+  <!-- Header and Nav -->
+  
+  <div class="row">
+    <div class="one columns">
+       
+        <img width="100" height="100" align="right" src="public/foundationassets/images/logo-large.png" />
+    </div>
+
+    <div class="two columns">
+        <h4 class="subheader">TIC.TAC.TWIST</h4>
+    </div>
+
+    <div class="eight columns">
+      <ul class="nav-bar right">
+        <li ><a href="#">Play</a></li>
+        <li class="active"> <a href="#">Instructions</a> </li>
+        <li > <a href="#">Preferences</a> </li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- End Header and Nav -->
+  
+  
+  <!-- First Band (Slider) -->
+  <!-- The Orbit slider is initialized at the bottom of the page by calling .orbit() on #slider -->
+    
+<div class="row">
+    <div class="twelve columns">
+    <div id="slider">
+
+
+        <!-- First Band (Slider) -->
+        <div>
+            <div class="row">
+                <div class="six columns">
+                    <img width="400" height="400" align="right" src="public/foundationassets/images/logo-large.png" />
+                </div>
+                <div class="six columns">
+                    </br> </br> </br></br>
+                    <h2 class='subheader'> 
+                        TIC.TAC.TWIST is a fresh take on the classic game doodled all over the back of your notebook. 
+                    </h2>
+                </div> 
+            </div>
+        </div>
+
+        <!-- Second Band (Slider) -->
+        <div>
+            <div class='six columns'>
+                <div class='board'>
+              <div class="quadrant" id='q0'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q1'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q2'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q3'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+                </div>
+            </div>
+
+            <div class='six columns'>
+                </br></br></br></br></br>
+                <h1 class='subheader'>The board has four quadrants, each with a 3 &#215 3 grid</h1>
+            </div>
+        </div>
+
+        <!-- Third Band (Slider) -->
+
+        <div>
+            <div class='six columns'>
+            <div class='board'>
+              <div class="quadrant" id='q0'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q1'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q2'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q3'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+                </div>
+            </div>
+
+            <div class='six columns'>
+                </br></br></br></br></br>
+                <h2 class='subheader'>You and your opponent take turns placing &#215's and &#9675's on the board. Click one of the cells to place your marker. </h2>
+            </div>
+        </div>       
+
+
+        <!-- Fourth Band (Slider) -->
+
+        <div>
+            <div class='six columns'>
+            <div class='board'>
+              <div class="quadrant" id='q0'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell">  &#215 </div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q1'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell">&#9675</div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q2'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell">&#9675</div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell">  &#215 </div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q3'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell"></div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"> &#215 </div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell">&#9675</div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+                </div>
+            </div>
+
+            <div class='six columns'>
+                </br></br></br>
+                <h2 class='subheader'> After placing your marker, you must turn one of the quadrants in either direction. Rotate one of the quadrants by clicking and dragging in the desired direction. </h2>
+            </div>
+        </div> 
+
+        <!-- Fourth Band (Slider) -->
+
+        <div>
+            <div class='six columns'>
+            <div class='board'>
+              <div class="quadrant" id='q0'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell">  &#215 </div>
+                  <div id="cell1" class="cell">&#215</div>
+                  <div id="cell2" class="cell">&#215</div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell">&#9675</div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q1'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell selected"></div>
+                  <div id="cell1" class="cell">&#215</div>
+                  <div id="cell2" class="cell">&#9675</div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"></div>
+                  <div id="cell5" class="cell">&#9675</div>
+                  <div id="cell6" class="cell"></div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q2'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell">&#9675</div>
+                  <div id="cell2" class="cell"></div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell">  &#215 </div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell">&#9675</div>
+                  <div id="cell7" class="cell">&#215</div>
+                  <div id="cell8" class="cell"></div>
+                </div>
+              </div>
+              <div class="quadrant" id='q3'> 
+                <div class='quadcells'>
+                  <div id="cell0" class="cell"></div>
+                  <div id="cell1" class="cell">&#9675</div>
+                  <div id="cell2" class="cell">&#9675</div>
+                  <div id="cell3" class="cell"></div>
+                  <div id="cell4" class="cell"> &#215 </div>
+                  <div id="cell5" class="cell"></div>
+                  <div id="cell6" class="cell">&#9675</div>
+                  <div id="cell7" class="cell"></div>
+                  <div id="cell8" class="cell">&#9675</div>
+                </div>
+              </div>
+                </div>
+            </div>
+
+            <div class='six columns'>
+                </br></br></br>
+                <h2 class='subheader'> To win, get 5 in a horizontally, vertically or diagonally before your opponent </h2>
+            </div>
+        </div> 
+
+
+                <!-- Fourth Band (Slider) -->
+
+        <div>
+            <div class='four columns'>
+
+                </br></br></br>
+            </div>
+
+            <div class='four columns'>
+
+                </br></br></br>
+                <h1 class='subheader'> Thats it! </h1>
+                <a class="large radius button" href="#">Play a Game</a>
+
+            </div>
+
+            <div class='four columns'>
+
+                </br></br></br>
+            </div>
+        </div> 
+
+
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+  
+  
+  <!-- Three-up Content Blocks -->
+  
+ 
+  
+  
+ 
+  
+  <!-- Footer -->
+  
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p>&copy; Copyright Nocturnal Gaming</p>
+        </div>
+        <div class="six columns">
+          <ul class="link-list right">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Report Bugs</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Hire Me!</a></li>
+          </ul>
+        </div>
+      </div>
+    </div> 
+  </footer>
+  
+  <!-- Included JS Files (Uncompressed) -->
+  <!--
+  
+  <script src="javascripts/jquery.js"></script>
+  
+  <script src="javascripts/jquery.foundation.mediaQueryToggle.js"></script>
+  
+  <script src="javascripts/jquery.foundation.forms.js"></script>
+  
+  <script src="javascripts/jquery.foundation.reveal.js"></script>
+  
+  <script src="javascripts/jquery.foundation.orbit.js"></script>
+  
+  <script src="javascripts/jquery.foundation.navigation.js"></script>
+  
+  <script src="javascripts/jquery.foundation.buttons.js"></script>
+  
+  <script src="javascripts/jquery.foundation.tabs.js"></script>
+  
+  <script src="javascripts/jquery.foundation.tooltips.js"></script>
+  
+  <script src="javascripts/jquery.foundation.accordion.js"></script>
+  
+  <script src="javascripts/jquery.placeholder.js"></script>
+  
+  <script src="javascripts/jquery.foundation.alerts.js"></script>
+  
+  <script src="javascripts/jquery.foundation.topbar.js"></script>
+  
+  <script src="javascripts/jquery.foundation.joyride.js"></script>
+  
+  <script src="javascripts/jquery.foundation.clearing.js"></script>
+  
+  <script src="javascripts/jquery.foundation.magellan.js"></script>
+  
+  -->
+  
+  <!-- Included JS Files (Compressed) -->
+  <script src="jquery.min.js"></script>
+  <script src="public/foundationassets/javascripts/foundation.min.js"></script>
+  
+  <!-- Initialize JS Plugins -->
+  <script src="public/foundationassets/javascripts/app.js"></script>
+
+  <script type="text/javascript">
+     $(window).load(function() {
+
+
+         $('#slider').orbit({
+          animationSpeed: 800,
+          advanceSpeed: 8000, 
+          bullets: true,
+          directionalNav: true,
+          fluid: '16x9'
+         });
+
+
+         $('.cell').each(function (index){
+            $(this).bind('click', function(event){
+                $(event.target).html('&#215');
+                $('.quadcells').each( function (index){
+                    $(this).addClass('expanded');
+                });
+            })
+        });
+
+        $('.quadrant').each(function (index){
+            var mousedown = {x: 0, y: 0, quadNum:0};
+
+            $(this).bind('mouseup', function(event) {
+                var x = event.pageX - $(event.target).offset().left;
+                var y = event.pageY - $(event.target).offset().top;
+
+                console.log(x);
+                console.log(y);
+
+                var dx = x - mousedown.x;
+                var dy = y - mousedown.y;
+
+                var posdx = (dx > 0) ? true : false;
+                var posdy = (dy > 0) ? true : false;
+
+                var target_width = $(event.target).closest('.quadrant').width();
+
+                var downQuadNum = mousedown.quadNum;
+                var upQuadNum = parseInt($(event.target).closest('.quadrant').attr('id').slice(1))
+
+
+                console.log("down quad: " + downQuadNum);
+                console.log("up quad: " + upQuadNum);
+                if (downQuadNum === upQuadNum){
+                    var subQuadNum;
+
+                    if (mousedown.x > target_width/2){
+                        if (y > target_width/2){subQuadNum = 2;}
+                        else{subQuadNum = 1;}
+                    }
+                    else {
+                        if (mousedown.y > target_width/2){subQuadNum = 3;}
+                        else{subQuadNum = 0;}
+                    }
+
+                    console.log('subQuadNum:' + subQuadNum);
+
+                    var direction;
+                    if (subQuadNum === 0){
+                        if (posdx && !posdy){ direction = 'cw';}
+                        else if (!posdx && posdy){ direction = 'cc';}
+                    }
+                    if (subQuadNum === 1){
+                        if (posdx && posdy){ direction = 'cw';}
+                        else if (!posdx && !posdy){ direction = 'cc';}
+                    }
+                    if (subQuadNum === 2){
+                        if (!posdx && posdy){ direction = 'cw';}
+                        else if (posdx && !posdy){ direction = 'cc';}
+                    }
+                    if (subQuadNum === 3){
+                        if (!posdx && !posdy){ direction = 'cw';}
+                        else if (posdx && posdy){ direction = 'cc';}
+                    }
+
+                    var distance = Math.sqrt((dx*dx) + (dy*dy));
+                    if (distance >= 10){
+                      if (direction == 'cw' && (downQuadNum === upQuadNum)){
+                        $(event.target).closest('.quadrant').transition({ rotate: '+=90deg' }, 500, 'in-out');
+                    }
+                    if (direction == 'cc'){
+                        $(event.target).closest('.quadrant').transition({ rotate: '-=90deg' }, 500, 'in-out');
+                    }
+                    }
+
+            }
+
+            $(this).bind('mousedown', function(event) {
+                var x = event.pageX - $(event.target).offset().left
+                var y = event.pageY - $(event.target).offset().top
+                var quadNum = parseInt($(event.target).closest('.quadrant').attr('id').slice(1));
+
+                mousedown.x = x;
+                mousedown.y = y;
+                mousedown.quadNum = quadNum;
+            }); 
+        });
+
+
+        })
+
+
+
+
+     });
+  </script>
+
+<script src="jquery.transit.js"></script>
+
+  
+</body>
+</html>

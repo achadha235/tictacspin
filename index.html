@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>TIC.TAC.TWIST :: Homepage</title>
+  
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="stylesheets/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="./public/foundationassets/stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="./public/foundationassets/stylesheets/app.css">
+
+  <script src="jquery.min.js"></script>
+  <script src="public/foundationassets/javascripts/modernizr.foundation.js"></script>
+
+</head>
+<body>
+  
+  <!-- Header and Nav -->
+  
+  <div class="row">
+    <div class="one columns">
+       
+        <img width="100" height="100" align="right" src="public/foundationassets/images/logo-large.png" />    </div>
+
+    <div class="two columns">
+        <h4 class="subheader">TIC.TAC.TWIST</h4>
+    </div>
+
+    <div class="eight columns">
+      <ul class="nav-bar right">
+        <li class="active"><a href="#">Play</a></li>
+        <li > <a href="./tutorial">Tutorial</a> </li>
+        <li > <a href="#">Preferences</a> </li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- End Header and Nav -->
+  
+  
+  <!-- First Band (Slider) -->
+  <!-- The Orbit slider is initialized at the bottom of the page by calling .orbit() on #slider -->
+    
+<div class="row">
+    <div class="two columns">
+      <ul class="nav-bar vertical">
+        <li ><a href="#">Single Player</a></li>
+        <li class="active"> <a href="#">Multiplayer</a> </li>
+        <li > <a href="#">Leaderboards</a> </li>
+      </ul>    </div>
+
+    <div class="ten columns">
+         <h1 class='subheader'> hallas </h1>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+  
+  
+  <!-- Three-up Content Blocks -->
+  
+ 
+  
+  
+ 
+  
+  <!-- Footer -->
+  
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p>&copy; Copyright Nocturnal Gaming</p>
+        </div>
+        <div class="six columns">
+          <ul class="link-list right">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Report Bugs</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Hire Me!</a></li>
+          </ul>
+        </div>
+      </div>
+    </div> 
+  </footer>
+  
+  <!-- Included JS Files (Uncompressed) -->
+  <!--
+  
+  <script src="javascripts/jquery.js"></script>
+  
+  <script src="javascripts/jquery.foundation.mediaQueryToggle.js"></script>
+  
+  <script src="javascripts/jquery.foundation.forms.js"></script>
+  
+  <script src="javascripts/jquery.foundation.reveal.js"></script>
+  
+  <script src="javascripts/jquery.foundation.orbit.js"></script>
+  
+  <script src="javascripts/jquery.foundation.navigation.js"></script>
+  
+  <script src="javascripts/jquery.foundation.buttons.js"></script>
+  
+  <script src="javascripts/jquery.foundation.tabs.js"></script>
+  
+  <script src="javascripts/jquery.foundation.tooltips.js"></script>
+  
+  <script src="javascripts/jquery.foundation.accordion.js"></script>
+  
+  <script src="javascripts/jquery.placeholder.js"></script>
+  
+  <script src="javascripts/jquery.foundation.alerts.js"></script>
+  
+  <script src="javascripts/jquery.foundation.topbar.js"></script>
+  
+  <script src="javascripts/jquery.foundation.joyride.js"></script>
+  
+  <script src="javascripts/jquery.foundation.clearing.js"></script>
+  
+  <script src="javascripts/jquery.foundation.magellan.js"></script>
+  
+  -->
+  
+  <!-- Included JS Files (Compressed) -->
+  <script src="javascripts/jquery.js"></script>
+  <script src="javascripts/foundation.min.js"></script>
+  
+  <!-- Initialize JS Plugins -->
+  <script src="javascripts/app.js"></script>
+
+  <script type="text/javascript">
+     $(window).load(function() {
+
+
+         $('#slider').orbit({
+          animationSpeed: 800,
+          timer: false,
+          advanceSpeed: 8000, 
+          bullets: true,
+          directionalNav: true,
+          fluid: '16x9'
+
+         });
+
+
+         $('.cell').each(function (index){
+            $(this).bind('click', function(event){
+                $(event.target).html('&#215');
+                $('.quadcells').each( function (index){
+                    $(this).addClass('expanded');
+                });
+            })
+        });
+
+        $('.quadrant').each(function (index){
+            var mousedown = {x: 0, y: 0, quadNum:0};
+
+            $(this).bind('mouseup', function(event) {
+                var x = event.pageX - $(event.target).offset().left
+                var y = event.pageY - $(event.target).offset().top
+
+                var dx = x - mousedown.x;
+                var dy = y - mousedown.y;
+
+                var posdx = (dx > 0) ? true : false;
+                var posdy = (dy > 0) ? true : false;
+
+                var target_width = $(event.target).width();
+
+                var downQuadNum = mousedown.quadNum;
+                var upQuadNum = parseInt($(event.target).closest('.quadrant').attr('id').slice(1))
+
+                if (downQuadNum === upQuadNum){
+                    var subQuadNum;
+
+                    if (mousedown.x > target_width/2){
+                        if (y > target_width/2){subQuadNum = 2;}
+                        else{subQuadNum = 1;}
+                    }
+                    else {
+                        if (mousedown.y > target_width/2){subQuadNum = 3;}
+                        else{subQuadNum = 0;}
+                    }
+                    var direction;
+                    if (subQuadNum === 0){
+                        if (posdx && !posdy){ direction = 'cw';}
+                        else if (!posdx && posdy){ direction = 'cc';}
+                    }
+                    if (subQuadNum === 1){
+                        if (posdx && posdy){ direction = 'cw';}
+                        else if (!posdx && !posdy){ direction = 'cc';}
+                    }
+                    if (subQuadNum === 2){
+                        if (!posdx && posdy){ direction = 'cw';}
+                        else if (posdx && !posdy){ direction = 'cc';}
+                    }
+                    if (subQuadNum === 3){
+                        if (!posdx && !posdy){ direction = 'cw';}
+                        else if (posdx && posdy){ direction = 'cc';}
+                    }
+
+
+                    if (direction == 'cw'){
+                        $(event.target).closest('.quadrant').transition({ rotate: '90deg' }, 500, 'in-out');
+                    }
+                    if (direction == 'cc'){
+                        $(event.target).closest('.quadrant').transition({ rotate: '0deg' }, 500, 'in-out');
+                    }
+            }
+
+            $(this).bind('mousedown', function(event) {
+                var x = event.pageX - $(event.target).offset().left
+                var y = event.pageY - $(event.target).offset().top
+                var quadNum = parseInt($(event.target).closest('.quadrant').attr('id').slice(1));
+
+                mousedown.x = x;
+                mousedown.y = y;
+                mousedown.quadNum = quadNum;
+            }); 
+        });
+
+
+        })
+
+
+
+
+     });
+  </script>
+
+<script src="../jquery.transit.js"></script>
+
+  
+</body>
+</html>
