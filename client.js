@@ -13,6 +13,9 @@ var messageLimit = 3;
 var socket;
 var id;
 
+
+
+// Ready function
 function ready(){
 	socket.emit('ready_up', id);
 }
@@ -34,7 +37,7 @@ function onlineGameStartClicked(){
 	});
 
 	socket.on('message', function (message){
-		console.log('recieved message: ' + message);
+
 		if (messagebox.length >= messageLimit){
 			history.push(messagebox[0]);
 			messagebox = messagebox.slice(1);
@@ -44,7 +47,6 @@ function onlineGameStartClicked(){
 	});
 
 	socket.on('start_game', function (game){
-		console.log('start game recieved');
 		console.log(game);
 		localGame = game;
 		drawGame();
@@ -56,14 +58,17 @@ function onlineGameStartClicked(){
 	});
 
 	socket.on('add_marker', function (player, pos, quadrant){
+
+	
 		console.log('add marker recieved');
+
 		addMarker(player, pos, quadrant);
 		localGame.markerPlaced = true;
 		updateAnimations();
 	});
 
-	socket.on('rotate_quadrant', function (game, direction, quad){
-		rotateQuadrant(game, direction, quad);
+	socket.on('rotate_quadrant', function (direction, quad){
+		rotateQuadrant(direction, quad);
 		localGame.rotationPerformed = true;
 		updateAnimations();
 	});
@@ -228,7 +233,6 @@ function onlineGameStartClicked(){
 	}
 	// Add a marker to the view on the given location
 	function addMarker(player, pos, quad){
-		console.log('add marker recieved');
 		//localGame.quadrants['' + quad][pos[0]][pos[1]] = player;
 		var quadSelector = '#q' + quad;
 		var cellNumber = (pos[0] * 3) + pos[1];
@@ -248,11 +252,11 @@ function onlineGameStartClicked(){
 	}
 
 	function requestRotate(direction, quad){
+		console.log('rotation requested');
 		socket.emit('request_rotate', id, direction, quad);
 	}
 
-	function rotateQuadrant(game, direction, quad){
-		localGame = game;
+	function rotateQuadrant(direction, quad){
 
 		if (direction == 'cw'){
 			$('#q' +  quad).transition({ rotate: '90deg' }, 500, 'in-out');

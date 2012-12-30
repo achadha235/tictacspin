@@ -442,7 +442,19 @@ Game.prototype.initializePlayer = function (player){
   player.socket.on('ready_up', this.readyPlayer(this)); // Argument is playerId
   player.socket.on('place_marker', this.placeMarble(this)); 
 
-  player.socket.on('request_rotate', this.rotateQuadrant(this));
+  player.socket.on('request_rotate', function (self){
+    return function (id, direction, quad){
+
+
+
+      if (id === self.players[self.playerTurn].id && !self.rotationPerformed && self.markerPlaced){
+              self.rotateQuadrant(direction, quad)
+              io.sockets.in(self.gameId).emit('rotate_quadrant', direction, quad);
+      }
+    }
+  }(this))
+
+
 }
 
 Game.prototype.readyPlayer = function(self){
@@ -458,22 +470,37 @@ Game.prototype.readyPlayer = function(self){
     }
 
     if (player1.status === 'ready' && player2.status === 'ready'){
-      self.updateGame();
+      self.startGame();
     }
   }
 }
 
-Game.prototype.updateGame = function (){
+Game.prototype.startGame = function (){
   console.log(this.gameId);
   io.sockets.in(this.gameId).emit('message', 'both players are ready ');
 
-  var localGame = {quadrants: this.quadrants};
+  var localGame = {quadrants: this.quadrants, rotationPerformed: this.rotationPerformed, markerPlaced: this.markerPlaced};
   console.log(localGame);
+  this.status = 'in_play';
   io.sockets.in(this.gameId).emit('start_game', localGame);
+}
+
+Game.prototype.updateGame = function (){
+
+  console.log('update game called');
+
+  var localGame = {quadrants: this.quadrants, rotationPerformed: this.rotationPerformed, markerPlaced: this.markerPlaced};
+
+  io.sockets.in(this.gameId).emit('update_game', localGame);
+
+  if (this.markerPlaced && this.rotationPerformed){
+    this.endTurn();
+  }
 }
 
 
 Game.prototype.endTurn = function (){
+  for (var i = 0; i < 10; i++) {console.log('end turn called')};
   this.playerTurn = (this.playerTurn === 1) ? 2 : 1;
   this.markerPlaced = false;
   this.rotationPerformed = false;
@@ -488,8 +515,6 @@ Game.prototype.isLegalPlace = function(pos,quadNum){
 }
 
 Game.prototype.placeMarble = function(self){
-
-
 
   return function (playerId, pos, quad){
     console.log('PLACE MARKER CALLED');
@@ -514,7 +539,9 @@ Game.prototype.placeMarble = function(self){
 
       self.markerPlaced = true;
       console.log('add marker emiited');
-      io.sockets.in(self.gameId).emit('add_marker', self.playerTurn, pos, quad);  
+
+      io.sockets.in(self.gameId).emit('add_marker', self.playerTurn, pos, quad);
+      self.updateGame();
     };
 }
 
@@ -525,27 +552,10 @@ Game.prototype.placeMarble = function(self){
 
 }
 
-Game.prototype.rotateQuadrant = function(self){
-
-  return function (player, direction, quad){
-    if (self.markerPlaced == true && self.rotationPerformed == false && player == self.players[self.playerTurn].id){
-      self.rotateQuadrant(direction, quad);
-      
-      var localGame = {quadrants: this.quadrants};
-      console.log(localGame);
-      
-      io.sockets.in(self.gameId).emit('rotate_quadrant', localGame, direction, quad);
-      self.endTurn();
-
-      if (self.status == 'in_play'){
-        io.sockets.in(self.gameId).emit('start_turn', self.players[self.playerTurn]);
-      }
-    }
-  }
-
-
- this.quadrants['' + quadNum].rotateQuad(direction);
- this.rotationPerformed = true;
+Game.prototype.rotateQuadrant = function(direction, quadrant){
+    this.quadrants['' + quadrant].rotateQuad(direction);
+    this.rotationPerformed = true;
+    this.updateGame();
 }
 
 Game.prototype.putBoardTogether = function(){
