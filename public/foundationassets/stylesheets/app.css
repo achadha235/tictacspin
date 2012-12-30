@@ -12,7 +12,14 @@
 /* -----------------------------------------
    Shared Styles
 ----------------------------------------- */
+.subheader {
+	text-shadow: 0 3px 20px #eeeeFF;
+	color: #ffffff;
+}
 
+body {
+	background-color: #252525;
+}
 
 .board {
 	-webkit-touch-callout: none;

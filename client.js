@@ -294,12 +294,16 @@ function onlineGameStartClicked(){
 	function hideMenu(){
 		$('#sideMenu').transition({ x: '-130px',  scale:1, opacity:0});
 		$('.board').transition({ x: '-110px', scale:1, opacity:1});
+		$('#topbar').transition({ y: '-40px'});
+		$('#menuToggler').addClass('textglow');
 		menuHidden = true;
 	}
 
 	function showMenu(){
 		$('.board').transition({ x: '0px', scale: 0.8, opacity:0.5 });
 		$('#sideMenu').transition({ x: '0px',scale:1, opacity:1 });	
+		$('#topbar').transition({ y: '0px'});
+		$('#menuToggler').removeClass('textglow');
 		menuHidden = false;
 	}
 

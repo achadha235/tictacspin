@@ -126,7 +126,6 @@ var lobby = new Lobby('Public', false);
 
 io.sockets.on('connection', function (socket){
 
-  socket.emit('message', 'SERVER: Connecting to lobby...');
   console.log('Player connected! Requesting identifiers...');
 
   socket.emit('request_id');
@@ -200,7 +199,7 @@ Lobby.prototype.addPlayer = function(player){
   // Connect the player to the lobby's socket
   player.socket.join(this.id);
 
-  player.socket.emit('message', 'LOBBY: Welcome to the ' + this.name + ' lobby. Please wait while we find you a suitable opponent...');
+  player.socket.emit('message', 'LOBBY: Welcome to the ' + this.name + ' lobby. Searching for an open game...');
 
 
   console.log('Player ' + player.id + ' added to lobby.' );
@@ -216,8 +215,8 @@ Lobby.prototype.startGame = function(player1, player2){
   var gameId = Math.floor((Math.random() * 10000) + 1);
   var game = new Game(gameId, player1, player2);
 
-  player1.socket.emit('message', 'LOBBY: Joining match against ' + player2.name + '...');
-  player2.socket.emit('message', 'LOBBY: Joining match against ' + player1.name + '...');
+  player1.socket.emit('message', 'LOBBY: Found open game - click to join. ');
+  player2.socket.emit('message', 'LOBBY: Found open game - click to join. ');
 }
 
 Lobby.prototype.endGame = function (gameId){
@@ -435,8 +434,8 @@ Game.prototype.initializePlayer = function (player){
 
   player.socket.join(this.gameId);
 
-  var button = "<button class='medium radius button' onclick='ready()'> Ready </button>" 
-  player.socket.emit('message', 'Press when ready' + button);
+  var button = "<button class='medium radius button' onclick='ready()'> Join </button>" 
+  player.socket.emit('message', button);
 
 
   player.socket.on('ready_up', this.readyPlayer(this)); // Argument is playerId
@@ -480,7 +479,6 @@ Game.prototype.readyPlayer = function(self){
 
 Game.prototype.startGame = function (){
   console.log(this.gameId);
-  io.sockets.in(this.gameId).emit('message', 'both players are ready ');
 
   var localGame = {quadrants: this.quadrants, rotationPerformed: this.rotationPerformed, markerPlaced: this.markerPlaced};
   console.log(localGame);
