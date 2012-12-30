@@ -1,10 +1,6 @@
 // http://colorschemedesigner.com/#0041ToLtIwtwG8----
 $(document).ready(function() {
-
-
-
-
-
+	showMenu();
 });
 
 var history = [];
@@ -12,6 +8,8 @@ var messagebox = [];
 var messageLimit = 3;
 var socket;
 var id;
+var menuHidden = false;
+
 
 
 
@@ -28,6 +26,7 @@ function onlineGameStartClicked(){
 	var localGame; // local copy of game state
 	var net_players;
 	var current_player;
+
 
 	// mouse down coordinates and quadrant
 	var mousedown = {x: 0, y: 0, quadNum:0};
@@ -50,6 +49,10 @@ function onlineGameStartClicked(){
 		console.log(game);
 		localGame = game;
 		drawGame();
+
+		if (!menuHidden){
+			toggleMenu();
+		}
 	});
 
 	socket.on('update_game', function (game){
@@ -76,6 +79,7 @@ function onlineGameStartClicked(){
 	socket.on('game_over', function (winner){
 		if (winner === 1){console.log('X wins!!!');}
 		if (winner === 2){console.log('O wins!!!');}
+		showMenu();
 	});
 
 	function updateAnimations(){
@@ -90,6 +94,19 @@ function onlineGameStartClicked(){
 				$(this).addClass('expanded');
 			})
 		}
+	}
+
+	function hideMenu(){
+		$('#sideMenu').fadeOut(500,'swing');
+		$('#sideMenu').transition({ x: '-130px'});
+		$('.board').transition({ x: '-110px' });
+	}
+
+	function showMenu(){
+		$('#sideMenu').fadeOut(500,'swing');
+
+		$('#sideMenu').transition({ x: '0px' });
+		$('.board').transition({ x: '0px' });
 	}
 
 
@@ -273,4 +290,29 @@ function onlineGameStartClicked(){
 	}
 
 }
+
+	function hideMenu(){
+		$('#sideMenu').transition({ x: '-130px',  scale:1, opacity:0});
+		$('.board').transition({ x: '-110px', scale:1, opacity:1});
+		menuHidden = true;
+	}
+
+	function showMenu(){
+		$('.board').transition({ x: '0px', scale: 0.8, opacity:0.5 });
+		$('#sideMenu').transition({ x: '0px',scale:1, opacity:1 });	
+		menuHidden = false;
+	}
+
+	function toggleMenu(){
+		if (menuHidden){
+			showMenu();
+		}
+		else {
+			hideMenu();
+		}
+	}
+
+
+
+
 

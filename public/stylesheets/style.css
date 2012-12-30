@@ -8,6 +8,10 @@ body{
 	user-select: none;
 }
 
+#sideMenu {
+	z-index: 1000;
+}
+
 .board {
 	height: 640px;
 	width: 640px;

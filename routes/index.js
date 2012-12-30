@@ -8,7 +8,7 @@ exports.index = function(req, res){
 };
 
 exports.loggedin = function(req, res){
-  res.render('loggedin', { title: 'Anarchy', name: req.user.name.split(" ")[0].toUpperCase() });
+  res.redirect('/play');
 };
 
 exports.tutorial = function (req, res){

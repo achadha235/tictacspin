@@ -445,6 +445,9 @@ Game.prototype.initializePlayer = function (player){
   player.socket.on('request_rotate', function (self){
     return function (id, direction, quad){
 
+      console.log(id === self.players[self.playerTurn].id );
+      console.log(!this.rotationPerformed );
+      console.log(this.markerPlaced );
 
 
       if (id === self.players[self.playerTurn].id && !self.rotationPerformed && self.markerPlaced){
