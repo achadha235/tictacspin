@@ -8,76 +8,12 @@ var express = require('express')
 var app = express();
 var config = require('./config');
 
+// Passport and database
+
 var User = require('./model/user');
 
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
-
-
-
-
-function Lobby(){
-  this.name = 1;
-}
-
-
-Lobby.prototype.addPlayer = function(player){
-  // Push a unique player to the lobby
-}
-
-Lobby.prototype.startGame = function(player1, player2){
-  // Start a new game between two players and push it to the queue. Return the
-  // gameID when game is started
-}
-
-Lobby.prototype.endGame = function (gameId){
-  // Ends the game with the given gameId 
-}
-
-Lobby.prototype.removePlayer = function(playerId){
-  // removes the player with the given playerId from the lobby and disconnects then from
-  // socket
-}
-
-Lobby.prototype.recordResult = function(result){
-  // Processes the results in the result queue and 
-}
-
-Lobby.prototype.processPlayerQueue = function(){
-  // Checks the playerQueue for suitable matches and starts them.
-}
-
-Lobby.prototype.checkGames = function(){
-  // Checks the state of each game and logs the result of the game
-}
-
-Lobby.prototype.spectate = function(){
-  // Maybe?
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 passport.serializeUser(function (user, done){
@@ -151,15 +87,25 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/', function(req, res, next){
+  res.sendfile( __dirname + '/views/' + 'index.html' );
+});
+
+app.get('/play', function(req, res, next){
+  res.sendfile( __dirname + '/views/' + 'index.html' );
+});
+
+app.get('/tutorial', function(req, res, next){
+  res.sendfile( __dirname + '/views/' + 'tutorial.html' );
+});
+
 app.get('/users', user.list);
+
 app.get('/fbauth', 
   passport.authenticate('facebook', {scope: 'email'})
 );
+
 app.get('/fbauthed', passport.authenticate('facebook', {failureRedirect: '/'}), routes.loggedin);
-
-
-app.get('/tutorial', routes.loggedin);
 
 app.get( '/*' , function(req, res, next) {
         var file = req.params[0]; 
@@ -173,72 +119,176 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 var io = require('socket.io').listen(server);
 io.set('log level', 1);
 
-var players = [];
-var game;
 
+// Lobby for the game
+
+var lobby = new Lobby('Public', false);
 
 io.sockets.on('connection', function (socket){
-  game = new Game();
+
+  socket.emit('message', 'SERVER: Connecting to lobby...');
+  console.log('Player connected! Requesting identifiers...');
 
   socket.emit('request_id');
   socket.on('recieve_id', function (player_id){
-    var player = new Player(player_id);
-    var player_name = 'Player '+ player_id;
-    players.push({id: player_id, name: player_name});
 
-    if (players.length === 2){
-      io.sockets.emit('start_game', game, players);
-      setTimeout( function(){
-        io.sockets.emit('start_turn', players[game.playerTurn - 1].id);
-        console.log('Emiited start turn for Player' + players[game.playerTurn - 1].id );
-      }, 500);
-      
-    }
+    console.log('Identifiers for Player ' + player_id + ' recieved. Adding player to lobby...' );
+    var player = new Player(player_id, socket);
+    lobby.addPlayer(player);
   });
-
-  socket.on('place_marker', function (player, pos, quad){
-    console.log('player' + player + 'attempted move ' + pos + ', ' + quad);
-   // console.log(player === players[game.playerTurn - 1].id);
-    console.log(!game.markerPlaced);
-    //console.log(game.isLegalPlace(pos, quad));
-    if (!game.markerPlaced && player === players[game.playerTurn - 1].id && game.isLegalPlace(pos, quad)){
-      game.placeMarble(pos, quad);
-      game.markerPlaced = true;
-      io.sockets.emit('add_marker', game.playerTurn, pos, quad);
-      
-    };
-  });
-
-  socket.on('request_rotate', function (player, direction, quad){
-
-
-    if (game.markerPlaced == true && game.rotationPerformed == false && player == players[game.playerTurn - 1].id){
-      game.rotateQuadrant(direction, quad);
-      game.rotationPerformed = true;
-      
-
-      io.sockets.emit('rotate_quadrant', game, direction, quad);
-      game.endTurn();
-
-      if (game.status == 'in_play'){
-        io.sockets.emit('start_turn', players[game.playerTurn - 1]);
-      }
-    }
-  });
-
 });
 
-/////////////////////////////////////////////////////
-/////////////////////// GAME //////////////////////////
 
+
+/////////////////////////////////////////////////////
+// PLAYER
+/////////////////////////////////////////////////////
+
+function Player(playerId, socket, name, attributes){
+    this.id = playerId;
+    this.socket = socket;
+    this.name = name ? name : "Player" + playerId;
+    this.attributes = attributes ? attributes : {experience: 100};
+    this.status = "chilling";
+}
+
+/////////////////////////////////////////////////////
+// LOBBY
+/////////////////////////////////////////////////////
+
+// ...a couple of utility functions
+Array.prototype.pushUnique = function (item){
+    if(this.indexOf(item) == -1) {
+        this.push(item);
+        return true;
+    }
+    return false;
+}
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
+/////////////////////////////////////////////////////
+
+function Lobby(name, isPrivate){
+  this.id = "pub0";
+  this.name = "Public";
+  this.isPrivate = isPrivate ? isPrivate : false;
+
+  this.waiting = new Array(); // A queue of players that are waiting to be matched
+  this.players = {}; // an index of players by id
+  this.state = 'pre-match';
+
+  this.games = {}; // the games hosted by this lobby by id
+
+  this.finished = new Array(); // a list of the games that are finished and ready to be
+                    // processed
+
+}
+
+Lobby.prototype.addPlayer = function(player){
+  this.waiting.pushUnique(player);
+  this.players[player.id] = player;
+
+  // Connect the player to the lobby's socket
+  player.socket.join(this.id);
+
+  player.socket.emit('message', 'LOBBY: Welcome to the ' + this.name + ' lobby. Please wait while we find you a suitable opponent...');
+
+
+  console.log('Player ' + player.id + ' added to lobby.' );
+
+  this.processPlayerQueue();
+
+}
+
+Lobby.prototype.startGame = function(player1, player2){
+  // Set up and initialize the game and add both players
+  // in the 'pre-match' state. Generate a game id and set up the game
+
+  var gameId = Math.floor((Math.random() * 10000) + 1);
+  var game = new Game(gameId, player1, player2);
+
+  player1.socket.emit('message', 'LOBBY: Joining match against ' + player2.name + '...');
+  player2.socket.emit('message', 'LOBBY: Joining match against ' + player1.name + '...');
+}
+
+Lobby.prototype.endGame = function (gameId){
+  var game = this.games[gameId];
+}
+
+Lobby.prototype.removePlayer = function(player){
+  // removes the player with the given socket
+  // from the lobby
+
+  this.players[player.id] = undefined;
+  this.waiting.remove(player);
+}
+
+Lobby.prototype.recordResult = function(result){
+  // Processes the results in the result queue and 
+}
+
+Lobby.prototype.processPlayerQueue = function(){
+
+  // Necessary condition
+  if (this.waiting.length > 0){
+  // Checks the playerQueue for suitable matches and starts them
+
+  // sort players in the queue by experience
+  var xp_sort = function (player1, player2){
+    return (player1.experience >= player2.experience);
+  }
+  
+  var temp_queue = this.waiting;
+  var max_players = (temp_queue.length % 2 === 0) ? temp_queue.length : temp_queue.length - 1;
+
+  for (var i = 0; i < (max_players/2); i++){
+      var player1 = temp_queue.pop();
+      var player2 = temp_queue.pop();
+
+      this.startGame(player1, player2);
+  }
+
+  this.waiting = [];
+  for (var j = 0; j < temp_queue.length; j++){
+    this.waiting.push(temp_queue[i]);
+  }
+  }
+  
+}
+
+Lobby.prototype.checkGames = function(){
+  for (game in this.games){
+    if (game.state === 'finished'){
+      console.log(game);
+    }
+  }
+}
+
+Lobby.prototype.spectate = function(){
+  // Maybe?
+}
+
+
+
+/////////////////////////////////////////////////////
+// QUADRANT 
+/////////////////////////////////////////////////////
 
 function Quadrant(){
  this.rows=3;
  this.cols=3;
  this.matrix = [[0,0,0],[0,0,0],[0,0,0]];
 }
-// takes quadrant number and direction (clockwise cw and counter-clockwise cc)
-// returns a new quadrant with marbles rotated
+
 Quadrant.prototype.rotateQuad = function (direction){
  var quadmatrix = this.matrix;
  //newQuad is a temporary variable that is changing to get the rotated marbles
@@ -251,7 +301,6 @@ Quadrant.prototype.rotateQuad = function (direction){
      for (var col=0;col<quadC;col++){
        //getting marble or empty (0,1,2) at row and col
        var marble = quadmatrix[row][col];
-       // if (marble === 1) {console.log(marble)};
        //placing marble in new rotated pos
        newQuad[col][quadR-row-1] = marble;
      }
@@ -264,76 +313,17 @@ Quadrant.prototype.rotateQuad = function (direction){
      this.rotateQuad('cw');
    }
  }
+ this.rotationPerformed = true;
 }
 
-function Player(name, playerId){
-    this.name = name ? name : "bob" ;
-}
 
-function Game(gameId){
+/////////////////////////////////////////////////////
+// GAME
+/////////////////////////////////////////////////////
 
-   this.gameId = gameId ? gameid : "42";
-   this.quadrants = { };
+/// ... utility functions for Game()
 
-   for (var i = 0; i < 4; i++){
-       this.quadrants[''+i] = new Quadrant();
-   }
-
-   this.playerTurn = 1;
-   this.board = new Array();
-
-   this.markerPlaced = false;
-   this.rotationPerformed = false;
-
-   this.state = 'not started';
-} 
-
-
-
-Game.prototype.isLegalPlace = function(pos,quadNum){
- var row = pos[0];
- var col = pos[1];
- var stateOfCell = this.quadrants[''+quadNum].matrix[row][col];
- if (stateOfCell != 0) {return false;}
- else {return true;}
-}
-
-Game.prototype.placeMarble = function(pos,quadNum){
- var row = pos[0];
- var col = pos[1];
- //console.log(this.quadrants['0']);
- //console.log(this.quadrants['0'].matrix);
- if(this.quadrants[''+quadNum].matrix[row][col] != 0) {return false;}
- else {this.quadrants[''+quadNum].matrix[row][col] = this.playerTurn;}
-}
-
-Game.prototype.rotateQuadrant = function(direction,quadNum){
-  console.log('lame bug');
-  console.log(direction, quadNum);
- this.quadrants['' + quadNum].rotateQuad(direction);
-}
-
-Game.prototype.putBoardTogether = function(){
-   this.board = new Array();
-   var quads = this.quadrants;
-   var rows = quads['0'].rows;
-   for (var i = 0; i < rows; i++){
-       var q0_row = quads['0'].matrix[i].slice(0);
-       var q1_row = quads['1'].matrix[i].slice(0);
-       var new_row = q0_row.concat(q1_row);
-       this.board.push(new_row)
-   }
-
-   for (i = 0; i < rows; i++){
-       var q2_row = quads['2'].matrix[i].slice(0);
-       var q3_row = quads['3'].matrix[i].slice(0);
-       var new_row = q2_row.concat(q3_row);
-       this.board.push(new_row)
-   }
-   //console.log(this.board);
-}
-
-function fiveInARow (board, pos,direction,count,player){
+function fiveInARow (board, pos, direction, count, player){
  //console.log(pos[0]);
  if (count === 5) {return true};
  var row = pos[0];
@@ -412,8 +402,175 @@ function rotateBoard(board){
    return temp;
 }
 
+/////////////////////////////////////////////////////
+
+function Game(gameId, player1, player2){
+
+   this.gameId = gameId ? gameId : "42";
+   this.quadrants = { };
+   this.result = 'no-result';
+   this.state = 'pre-game';
+   this.moveHistory = [];
+
+
+   this.players = [false, player1, player2];
+
+   this.playerTurn = 1;
+
+   this.initializePlayer(player1);
+   this.initializePlayer(player2);
+
+   for (var i = 0; i < 4; i++){
+       this.quadrants['' + i] = new Quadrant();
+   }
+
+   this.countdown = 20;
+   this.board = new Array();
+
+   this.markerPlaced = false;
+   this.rotationPerformed = false;
+}
+
+Game.prototype.initializePlayer = function (player){
+
+  player.socket.join(this.gameId);
+
+  var button = "<button class='medium radius button' onclick='ready()'> Ready </button>" 
+  player.socket.emit('message', 'Press when ready' + button);
+
+
+  player.socket.on('ready_up', this.readyPlayer(this)); // Argument is playerId
+  player.socket.on('place_marker', this.placeMarble(this)); 
+
+  player.socket.on('request_rotate', this.rotateQuadrant(this));
+}
+
+Game.prototype.readyPlayer = function(self){
+  return function (playerId){
+    var player1 = self.players[1];
+    var player2 = self.players[2]; 
+
+    if (player1.id === playerId){
+      player1.status = 'ready';
+    }
+    else if (player2.id === playerId){
+      player2.status = 'ready';
+    }
+
+    if (player1.status === 'ready' && player2.status === 'ready'){
+      self.updateGame();
+    }
+  }
+}
+
+Game.prototype.updateGame = function (){
+  console.log(this.gameId);
+  io.sockets.in(this.gameId).emit('message', 'both players are ready ');
+
+  var localGame = {quadrants: this.quadrants};
+  console.log(localGame);
+  io.sockets.in(this.gameId).emit('start_game', localGame);
+}
+
+
+Game.prototype.endTurn = function (){
+  this.playerTurn = (this.playerTurn === 1) ? 2 : 1;
+  this.markerPlaced = false;
+  this.rotationPerformed = false;
+}
+
+Game.prototype.isLegalPlace = function(pos,quadNum){
+ var row = pos[0];
+ var col = pos[1];
+ var stateOfCell = this.quadrants[''+quadNum].matrix[row][col];
+ if (stateOfCell != 0) {return false;}
+ else {return true;}
+}
+
+Game.prototype.placeMarble = function(self){
+
+
+
+  return function (playerId, pos, quad){
+    console.log('PLACE MARKER CALLED');
+
+    console.log(playerId === self.players[self.playerTurn].id);
+
+    console.log(playerId);
+
+    console.log(self.players);
+    console.log(self.playerTurn);
+
+    if (!self.markerPlaced && playerId === self.players[self.playerTurn].id && self.isLegalPlace(pos, quad)){
+      var row = pos[0];
+      var col = pos[1];
+
+       if (self.quadrants[''+quad].matrix[row][col] != 0) { return false; }
+       else {
+        self.quadrants[''+quad].matrix[row][col] = self.playerTurn;
+        self.markerPlaced = true;
+      }
+
+
+      self.markerPlaced = true;
+      console.log('add marker emiited');
+      io.sockets.in(self.gameId).emit('add_marker', self.playerTurn, pos, quad);  
+    };
+}
+
+
+ 
+ //console.log(this.quadrants['0']);
+ //console.log(this.quadrants['0'].matrix);
+
+}
+
+Game.prototype.rotateQuadrant = function(self){
+
+  return function (player, direction, quad){
+    if (self.markerPlaced == true && self.rotationPerformed == false && player == self.players[self.playerTurn].id){
+      self.rotateQuadrant(direction, quad);
+      
+      var localGame = {quadrants: this.quadrants};
+      console.log(localGame);
+      
+      io.sockets.in(self.gameId).emit('rotate_quadrant', localGame, direction, quad);
+      self.endTurn();
+
+      if (self.status == 'in_play'){
+        io.sockets.in(self.gameId).emit('start_turn', self.players[self.playerTurn]);
+      }
+    }
+  }
+
+
+ this.quadrants['' + quadNum].rotateQuad(direction);
+ this.rotationPerformed = true;
+}
+
+Game.prototype.putBoardTogether = function(){
+   this.board = new Array();
+   var quads = this.quadrants;
+   var rows = quads['0'].rows;
+   for (var i = 0; i < rows; i++){
+       var q0_row = quads['0'].matrix[i].slice(0);
+       var q1_row = quads['1'].matrix[i].slice(0);
+       var new_row = q0_row.concat(q1_row);
+       this.board.push(new_row)
+   }
+
+   for (i = 0; i < rows; i++){
+       var q2_row = quads['2'].matrix[i].slice(0);
+       var q3_row = quads['3'].matrix[i].slice(0);
+       var new_row = q2_row.concat(q3_row);
+       this.board.push(new_row)
+   }
+   //console.log(this.board);
+}
+
 Game.prototype.checkWin = function(){
  var start = [0,0];
+ console.log(this.board);
  var rotBoard = rotateBoard(this.board);
  //console.log(rotBoard);
  var whiteWins = (fiveInARow(this.board.slice(0), start,'all',1,1)||fiveInARow(rotBoard, start,'all',1,1));
@@ -424,6 +581,10 @@ Game.prototype.checkWin = function(){
    return 0;
  }
 }
+
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 
 
 

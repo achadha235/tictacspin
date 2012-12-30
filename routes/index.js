@@ -4,7 +4,7 @@
  */
 
 exports.index = function(req, res){
-  res.render('index');
+  res.sendfile( __dirname + 'index.html');
 };
 
 exports.loggedin = function(req, res){
@@ -12,5 +12,5 @@ exports.loggedin = function(req, res){
 };
 
 exports.tutorial = function (req, res){
-    res.sendfile( __dirname + '/tutorial.html' + file );
+    res.sendfile( __dirname + 'tutorial.html');
 }
